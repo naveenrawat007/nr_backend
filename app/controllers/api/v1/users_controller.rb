@@ -1,6 +1,7 @@
 module Api
   module V1
     class UsersController < ApplicationController
+      before_action :authorize_request, only: :get_user_info
       protect_from_forgery with: :null_session
       respond_to :json
 
