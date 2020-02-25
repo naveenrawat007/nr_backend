@@ -21,21 +21,6 @@ module Api
         end
       end
 
-      def resend_otp
-        user = User.find_by(id: params[:user][:user_id])
-        if user.present?
-          user.update(otp_code: rand(100000...999999))
-          render json: {message: "OTP send to your registered email", status: 200 }
-          Sidekiq::Client.enqueue_to_in("default",Time.now, OtpSendWorker, user.id)
-        else
-          render json: {message: "User not found", status: 400 }
-        end
-      end
-
-      def get_user_info
-        render json: { message: "User Details", status: 200, user: UserSerializer.new(@user,root: false)}
-      end
-
       protected
 
       def build_resource(hash=nil)

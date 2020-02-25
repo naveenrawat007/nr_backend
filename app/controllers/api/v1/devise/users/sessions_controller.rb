@@ -24,21 +24,6 @@ module Api
         end
       end
 
-      def otp_verify
-        user = User.find_by(id: params[:user][:user_id]) if params[:user][:user_id].present?
-        otp = params[:user][:otp_code].to_i if params[:user][:otp_code].present?
-        if user.present?
-          if user.user_otp == otp
-            user.update(otp_verified: true)
-            render json: { message: "OTP verified sucessfully", status: 200, user: UserSerializer.new(user,root: false)}
-          else
-            render json: { message: "Invalid OTP", status: 400}
-          end
-        else
-          render json: { message: "User not found", status: 400}
-        end
-      end
-
     end
   end
 end
