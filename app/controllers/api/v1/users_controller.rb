@@ -9,7 +9,7 @@ module Api
         user = User.find_by(id: params[:user][:user_id]) if params[:user][:user_id].present?
         otp = params[:user][:otp_code].to_i if params[:user][:otp_code].present?
         if user.present?
-          if user.user_otp == otp
+          if user.otp_code == otp
             user.update(otp_verified: true)
             render json: { message: "OTP verified sucessfully", status: 200, user: UserSerializer.new(user,root: false)}
           else
