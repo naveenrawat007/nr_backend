@@ -34,7 +34,7 @@ module Api
         end
       end
 
-      def edit
+      def update
         routine = @user.routines.find_by(id: params[:id])
         if routine.present?
           routine.update(routine_params)
