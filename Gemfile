@@ -71,3 +71,6 @@ gem 'redis'
 gem 'sidekiq-cron'
 gem "dotenv-rails"
 gem 'unicorn'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'whenever', require: false
