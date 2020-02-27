@@ -10,6 +10,15 @@ module Api
         render json: { message: "Routines", status: 200, routines: ActiveModelSerializers::SerializableResource.new(routines, each_serializer: RoutineSerializer)}
       end
 
+      def all_routines
+        routines = @user.routines
+        if routines.present?
+          render json: { message: "Routines", status: 200, routines: ActiveModelSerializers::SerializableResource.new(routines, each_serializer: RoutineSerializer)}
+        else
+          render json: { message: "No Routines", status: 400}
+        end
+      end
+
       def create
         routine = @user.routines.create(routine_params)
         NextRoutineServices.new(routine).call
