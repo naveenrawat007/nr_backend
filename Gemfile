@@ -74,3 +74,5 @@ gem 'unicorn'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'whenever', require: false
+gem 'fcm'
+gem 'apns'
