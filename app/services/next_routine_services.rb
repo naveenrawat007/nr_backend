@@ -14,19 +14,19 @@ class NextRoutineServices
 
 	def next_routine()
     frequency = routine.frequency
-    if frequency == "daily"
+    if frequency == "Daily"
       routine.update(next_routine_date: routine.routine_date + 1.day )
-    elsif frequency == "weekly"
+    elsif frequency == "Weekly"
       routine.update(next_routine_date: routine.routine_date + 1.week )
-    elsif frequency == "every other week"
+    elsif frequency == "Every Other Week"
       routine.update(next_routine_date: routine.routine_date + 2.week )
-    elsif frequency == "monthly"
-      routine.update(next_routine_date: routine.routine_date + 1.week )
-    elsif frequency == "every other month"
+    elsif frequency == "Monthly"
+      routine.update(next_routine_date: routine.routine_date + 1.months )
+    elsif frequency == "Every Other Month"
       routine.update(next_routine_date: routine.routine_date + 2.months )
-    elsif frequency == "quarterly"
+    elsif frequency == "Quarterly"
       routine.update(next_routine_date: routine.routine_date + 3.months )
-    elsif frequency == "biannually"
+    elsif frequency == "Biannually"
       routine.update(next_routine_date: routine.routine_date + 6.months )
     else
       routine.update(next_routine_date: routine.routine_date + 1.year )

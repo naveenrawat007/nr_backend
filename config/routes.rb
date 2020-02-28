@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace "v1", constraints: ApiConstraint.new(version: 1) do
       resources :routines
+      resources :notifications
       devise_for :users, controllers: {registrations:"api/v1/devise/users/registrations", sessions:"api/v1/devise/users/sessions", passwords:"api/v1/devise/users/passwords"}
 
       post "/verify_otp" => "users#otp_verify"
@@ -11,7 +12,7 @@ Rails.application.routes.draw do
       post "/resend_otp" => "users#resend_otp"
       get "/user_info" => "users#get_user_info"
       get "/all_routines" => "routines#all_routines"
-
+      get "/month_routines" => "routines#month_routines"
     end
   end
 

@@ -38,6 +38,7 @@ module Api
         routine = @user.routines.find_by(id: params[:id])
         if routine.present?
           routine.update(routine_params)
+          NextRoutineServices.new(routine).call
           render json: { message: "Routine updated", status: 200}
         else
           render json: { message: "Routine not found", status: 400}
@@ -52,6 +53,30 @@ module Api
         else
           render json: { message: "Routine not found", status: 400}
         end
+      end
+
+      def month_routines
+        start_date = Date.parse(params[:start_date]) if params[:start_date].present?
+        end_date = Date.parse(params[:end_date]) if params[:end_date].present?
+        routines = @user.routines.where(routine_date: (start_date..end_date))
+        all_routines = []
+        routine_dates = []
+        routines.each do |routine|
+          frequency = routine.frequency
+          new_date = routine.routine_date
+          if frequency == 'daily'
+            while new_date <= (end_date + 1.day)
+              routine_dates.append({date: new_date.strftime("%d/%m/%Y %H:%M %p"), routine: all_routines})
+              new_date = new_date + 1.day
+            end
+          elsif frequency == 'Weekly'
+            while new_date <= end_date + 1.day
+              routine_dates.append({date: new_date.strftime("%d/%m/%Y %H:%M %p"), routine: routine.id})
+              new_date = new_date + 1.week
+            end
+          end
+        end
+        render json: { message: "Routines", status: 200 , routines_date: routine_dates.uniq}
       end
 
       private
