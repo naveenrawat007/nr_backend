@@ -11,6 +11,7 @@ module Api
           if resource.save
             token = JWT.encode({user_id: resource.id},Rails.application.secrets.secret_key_base, 'HS256')
             Sidekiq::Client.enqueue_to_in("default",Time.now, OtpSendWorker, resource.id)
+            Sidekiq::Client.enqueue_to_in("default",Time.now, RemindRoutineWorker, resource.device_type, resource.device_token, "Account Created", "Naturally reminded" )
             render json: { message: "Account Created please verfiy your account to login", status: 200, user: UserSerializer.new(resource,root: false, serializer_options: {token: token})}
           else
             render json: { message: resource.errors.full_messages[0], status: 400}
