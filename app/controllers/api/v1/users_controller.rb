@@ -20,11 +20,21 @@ module Api
         end
       end
 
+      def update_password
+        user = User.find_by(id: params[:user][:user_id]) if params[:user][:user_id].present?
+        if user.present?
+          user.update(password: params[:user][:password])
+          render json: { message: "Password Update Sucessfully", status: 200,  user: UserSerializer.new(user,root: false)}
+        else
+          render json: { message: "User not found", status: 400}
+        end
+      end
+
       def update_profile
         user = User.find_by(id: params[:user][:user_id]) if params[:user][:user_id].present?
         if user.update(user_params)
           token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
-          user.update(otp_verified: true)
+          user.update(otp_verified: true, image: params[:image])
           render json: { message: "User Update Sucessfully", status: 200,  user: UserSerializer.new(user,root: false, serializer_options: {token: token})}
         else
           render json: { message: "User not found", status: 404}
