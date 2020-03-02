@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get "/user_info" => "users#get_user_info"
       get "/all_routines" => "routines#all_routines"
       get "/month_routines" => "routines#month_routines"
+      patch "/update_password" => "users#update_password"
     end
   end
 
