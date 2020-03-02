@@ -5,7 +5,7 @@ module Api
       respond_to :json
 
       def create
-        if !User.exists?(email: sign_up_params[:email]) and !User.exists?(phone_no: sign_up_params[:phone_no] )
+        if !User.exists?(email: sign_up_params[:email])
           build_resource(sign_up_params)
           resource.otp_code = rand(100000...999999)
           if resource.save

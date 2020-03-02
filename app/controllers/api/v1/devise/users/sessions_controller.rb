@@ -5,7 +5,7 @@ module Api
       respond_to :json
 
       def create
-        user = (User.find_by(email: params[:user][:username]) or User.find_by(phone_no: params[:user][:username].to_i))
+        user = User.find_by(email: params[:user][:username])
         if user.present?
           token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
           if user.valid_password?(params[:user][:password])
