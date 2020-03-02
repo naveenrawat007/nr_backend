@@ -23,18 +23,19 @@ module Api
       def update_password
         user = User.find_by(id: params[:user][:user_id]) if params[:user][:user_id].present?
         if user.present?
+          token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
           user.update(password: params[:user][:password])
-          render json: { message: "Password Update Sucessfully", status: 200,  user: UserSerializer.new(user,root: false)}
+          render json: { message: "Password Update Sucessfully", status: 200,  user: UserSerializer.new(user,root: false,  serializer_options: {token: token})}
         else
           render json: { message: "User not found", status: 400}
         end
       end
 
       def update_profile
-        parameters = JSON.parse(params[:user]) if params[:user].present?
-        user = User.find_by(id: parameters["user_id"].to_i) if parameters["user_id"].present?
+        user = User.find_by(id: params[:user][:user_id].to_i) if params[:user][:user_id].present?
         if user.present?
-          user.update_without_password(first_name: parameters["first_name"], last_name: parameters["last_name"], email: parameters["email"], otp_verified: true, image: params[:image])
+          user.update_without_password(user_params)
+          user.update(image: params[:image])
           token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
           render json: { message: "User Update Sucessfully", status: 200,  user: UserSerializer.new(user,root: false, serializer_options: {token: token})}
         else
@@ -46,7 +47,8 @@ module Api
         user = (User.find_by(email: params[:user][:username]) or User.find_by(phone_no: params[:user][:username].to_i))
         if user.present?
           user.update(otp_code: rand(100000...999999))
-          render json: { message: "OTP sent to your registered email", status: 200, user: UserSerializer.new(user,root: false)}
+          token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
+          render json: { message: "OTP sent to your registered email", status: 200, user: UserSerializer.new(user,root: false, serializer_options: {token: token})}
           Sidekiq::Client.enqueue_to_in("default",Time.now, OtpSendWorker, user.id)
         else
           render json: { message: "User not found", status: 400}

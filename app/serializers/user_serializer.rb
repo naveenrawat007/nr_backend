@@ -7,7 +7,7 @@ class UserSerializer < ActiveModel::Serializer
     data[:email] = object.email
     data[:first_name] = object.first_name
     data[:last_name] = object.last_name
-    data[:image] = object.image.url if object.image.present?
+    data[:image] = object.image ? object.image.url : ""
     data[:otp] = object.otp_code
     data[:otp_verified] = object.otp_verified
     if self.instance_options[:serializer_options]
