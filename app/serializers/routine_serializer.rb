@@ -7,7 +7,8 @@ class RoutineSerializer < ActiveModel::Serializer
     data[:name] = object.name
     data[:description] = object.description
     data[:frequency] = object.frequency
-    data[:routine_date] = object.routine_date.strftime("%d/%m/%Y %H:%M %p") if object.routine_date.present?
+    data[:active] = object.active
+    data[:routine_date] = object.frequency == 'Daily' ? object.routine_date.strftime("%H:%M %p") : object.routine_date.strftime("%d/%m/%Y") if object.routine_date.present?
     data
   end
 end
