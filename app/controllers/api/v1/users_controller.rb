@@ -34,7 +34,10 @@ module Api
       def update_profile
         user = User.find_by(id: params[:user_id].to_i) if params[:user_id].present?
         if user.present?
-          user.update_without_password(first_name: params[:first_name], last_name: params[:last_name], email: params[:email], password: params[:password], image: params[:image])
+          user.update_without_password(first_name: params[:first_name], last_name: params[:last_name], email: params[:email], password: params[:password])
+          if params[:image].present?
+            user.update(image: params[:image])
+          end
           token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
           render json: { message: "User Update Sucessfully", status: 200,  user: UserSerializer.new(user,root: false, serializer_options: {token: token})}
         else
