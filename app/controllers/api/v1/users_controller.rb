@@ -32,10 +32,9 @@ module Api
       end
 
       def update_profile
-        user = User.find_by(id: params[:user][:user_id].to_i) if params[:user][:user_id].present?
+        user = User.find_by(id: params[:user_id].to_i) if params[:user_id].present?
         if user.present?
-          user.update_without_password(user_params)
-          user.update(image: params[:image])
+          user.update_without_password(first_name: params[:first_name], last_name: params[:last_name], email: params[:email], password: params[:password], image: params[:image])
           token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
           render json: { message: "User Update Sucessfully", status: 200,  user: UserSerializer.new(user,root: false, serializer_options: {token: token})}
         else
@@ -44,7 +43,7 @@ module Api
       end
 
       def forget_password
-        user = (User.find_by(email: params[:user][:username]) or User.find_by(phone_no: params[:user][:username].to_i))
+        user = User.find_by(email: params[:user][:username])
         if user.present?
           user.update(otp_code: rand(100000...999999))
           token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
