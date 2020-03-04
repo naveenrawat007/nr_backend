@@ -15,14 +15,15 @@ module Api
         end
       end
 
-      # def all_routines
-      #   routines = @user.routines
-      #   if routines.present?
-      #     render json: { message: "All Routines", status: 200, routines: ActiveModelSerializers::SerializableResource.new(routines, each_serializer: RoutineSerializer)}
-      #   else
-      #     render json: { message: "No Routines", status: 400}
-      #   end
-      # end
+      def day_routines
+        current_date = Date.parse(params[:current_date]).to_time.to_i
+        routines = @user.routines.where("(#{current_date} - start) % routine_interval = 0")
+        if routines.present?
+          render json: { message: "Routines", status: 200, routines: ActiveModelSerializers::SerializableResource.new(routines, each_serializer: RoutineSerializer)}
+        else
+          render json: { message: "No Routines", status: 400}
+        end
+      end
 
       def create
         routine = @user.routines.create(routine_params)
@@ -69,20 +70,19 @@ module Api
       # def month_routines
       #   start_date = Date.parse(params[:start_date]) if params[:start_date].present?
       #   end_date = Date.parse(params[:end_date]) if params[:end_date].present?
-      #   routines = @user.routines.where(routine_date: (start_date..end_date))
-      #   all_routines = []
+      #   routines = @user.routines.where(routine_date: (start_date..end_date)).order(routine_date: :asc)
       #   routine_dates = []
       #   routines.each do |routine|
       #     frequency = routine.frequency
       #     new_date = routine.routine_date
-      #     if frequency == 'daily'
+      #     if frequency == 'Daily'
       #       while new_date <= (end_date + 1.day)
-      #         routine_dates.append({date: new_date.strftime("%d/%m/%Y %H:%M %p"), routine: all_routines})
+      #         routine_dates.append({date: new_date.strftime("%d/%m/%Y")})
       #         new_date = new_date + 1.day
       #       end
       #     elsif frequency == 'Weekly'
       #       while new_date <= end_date + 1.day
-      #         routine_dates.append({date: new_date.strftime("%d/%m/%Y %H:%M %p"), routine: routine.id})
+      #         routine_dates.append({date: new_date.strftime("%d/%m/%Y")})
       #         new_date = new_date + 1.week
       #       end
       #     end
@@ -93,7 +93,7 @@ module Api
       private
 
       def routine_params
-        params.require(:routine).permit(:name, :description, :routine_date, :frequency, :active)
+        params.require(:routine).permit(:name, :description, :routine_date, :frequency, :active, :date)
       end
 
     end
