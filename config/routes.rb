@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       post "/resend_otp" => "users#resend_otp"
       get "/user_info" => "users#get_user_info"
       get "/day_routines" => "routines#day_routines"
-      get "/month_routines" => "routines#month_routines"
+      get "/routines_dates" => "routines#routines_dates"
       patch "/update_password" => "users#update_password"
     end
   end

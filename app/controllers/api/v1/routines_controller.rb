@@ -15,16 +15,6 @@ module Api
         end
       end
 
-      def day_routines
-        current_date = Date.parse(params[:current_date]).to_time.to_i
-        routines = @user.routines.where("(#{current_date} - start) % routine_interval = 0")
-        if routines.present?
-          render json: { message: "Routines", status: 200, routines: ActiveModelSerializers::SerializableResource.new(routines, each_serializer: RoutineSerializer)}
-        else
-          render json: { message: "No Routines", status: 400}
-        end
-      end
-
       def create
         routine = @user.routines.create(routine_params)
         NextRoutineServices.new(routine).call
@@ -67,28 +57,13 @@ module Api
         end
       end
 
-      # def month_routines
-      #   start_date = Date.parse(params[:start_date]) if params[:start_date].present?
-      #   end_date = Date.parse(params[:end_date]) if params[:end_date].present?
-      #   routines = @user.routines.where(routine_date: (start_date..end_date)).order(routine_date: :asc)
-      #   routine_dates = []
-      #   routines.each do |routine|
-      #     frequency = routine.frequency
-      #     new_date = routine.routine_date
-      #     if frequency == 'Daily'
-      #       while new_date <= (end_date + 1.day)
-      #         routine_dates.append({date: new_date.strftime("%d/%m/%Y")})
-      #         new_date = new_date + 1.day
-      #       end
-      #     elsif frequency == 'Weekly'
-      #       while new_date <= end_date + 1.day
-      #         routine_dates.append({date: new_date.strftime("%d/%m/%Y")})
-      #         new_date = new_date + 1.week
-      #       end
-      #     end
-      #   end
-      #   render json: { message: "Routines", status: 200 , routines_date: routine_dates.uniq}
-      # end
+      def routines_dates
+        start_date = Date.parse(params[:start_date]) if params[:start_date].present?
+        end_date = Date.parse(params[:end_date]) if params[:end_date].present?
+        selected_date = Date.parse(params[:selected_date]).to_time.to_i
+        result = RoutineDatesServices.new(@user, start_date, end_date, selected_date).call
+        render json: { message: "Routines", status: 200 , routines_date: result.routine_dates, routines: ActiveModelSerializers::SerializableResource.new(result.routines, each_serializer: RoutineSerializer)}
+      end
 
       private
 

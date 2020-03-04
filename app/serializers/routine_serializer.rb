@@ -9,6 +9,7 @@ class RoutineSerializer < ActiveModel::Serializer
     data[:frequency] = object.frequency
     data[:active] = object.active
     data[:routine_date] = object.frequency == 'Daily' ? object.routine_date.strftime("%H:%M %p") : object.routine_date.strftime("%b %d, %Y") if object.routine_date.present?
+    data[:next_routine_date] = object.next_routine_date.strftime("%b %d, %Y")
     data
   end
 end
