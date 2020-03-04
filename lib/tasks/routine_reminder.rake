@@ -5,7 +5,8 @@ namespace :routine_reminder do
     routines = Routine.all
     routines.each do |routine|
       user = routine.user
-      if routine.next_routine_date == Date.today
+      date = Date.parse(routine.next_routine_date.strftime("%d-%m-%Y"))
+      if date == Date.today
         title = "Routine Reminder"
         message = "Complete your routine today"
         routine.notifications.create(description: message)
