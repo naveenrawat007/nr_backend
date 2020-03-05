@@ -11,7 +11,7 @@ module Api
         routines.each do |routine|
           if routine.notifications.present?
             notification = routine.notifications.last
-            routine_notifications.append({description: notification.description, frequency: routine.frequency})
+            routine_notifications.append({description: notification.description, frequency: routine.frequency, name: routine.name})
           end
         end
         render json: { message: "Notifications", status: 200, notifications: routine_notifications}
