@@ -7,7 +7,7 @@
 #
 # set :output, "/path/to/my/cron_log.log"
 #
-every :day, at: '8am' do
+every 1.day, at: '09:01 am' do
   rake "routine_reminder:notification_task"
 end
 #
