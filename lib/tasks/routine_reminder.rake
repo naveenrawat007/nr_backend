@@ -7,8 +7,8 @@ namespace :routine_reminder do
       user = routine.user
       date = Date.parse(routine.next_routine_date.strftime("%d-%m-%Y"))
       if date == Date.today
-        title = "Routine Reminder"
-        message = "Complete your routine today"
+        title = "#{routine.frequency} Reminder"
+        message = "#{routine.frequency} reminder for routine #{routine.name}"
         routine.notifications.create(description: message)
         Sidekiq::Client.enqueue_to_in("default",routine.next_routine_date, RemindRoutineWorker, user.device_type, user.device_token, message, title )
         NextRoutineServices.new(routine).call
