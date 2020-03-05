@@ -15,14 +15,19 @@ class NextRoutineServices
 	def next_routine()
     frequency = routine.frequency
     if frequency == "Daily"
-      routine.update(next_routine_date: DateTime.parse((routine.routine_date != Date.today ? routine.routine_date : routine.routine_date + 1.day).to_s + " " + routine.routine_time.strftime("%H:%M:%S")), start: routine.routine_date.to_time.to_i, routine_interval: 86400)
-      # if routine.routine_date == Date.today && (routine.routine_time.strftime("%H:%M") > Time.now.strftime("%H:%M") || )
-      #   routine.update(next_routine_date: DateTime.parse((routine.routine_date + 1.day).to_s + " " + routine.routine_time.strftime("%H:%M:%S")))
-      # else
-      #   routine.update(next_routine_date: DateTime.parse((routine.routine_date).to_s + " " + routine.routine_time.strftime("%H:%M:%S")))
-      # end
+      routine.update(start: routine.routine_date.to_time.to_i, routine_interval: 86400)
+      if routine.routine_date == Date.today && (routine.routine_time.strftime("%H:%M %p") > Time.now.strftime("%H:%M %p"))
+        routine.update(next_routine_date: DateTime.parse((routine.routine_date).to_s + " " + routine.routine_time.strftime("%H:%M:%S")))
+      else
+        routine.update(next_routine_date: DateTime.parse((routine.routine_date + 1.day).to_s + " " + routine.routine_time.strftime("%H:%M:%S")))
+      end
     elsif frequency == "Weekly"
-      routine.update(next_routine_date: DateTime.parse((routine.routine_date != Date.today ? routine.routine_date : routine.routine_date + 1.weeks).to_s + " " + routine.routine_time.strftime("%H:%M:%S")), start: routine.routine_date.to_time.to_i, routine_interval: 604800)
+      routine.update(start: routine.routine_date.to_time.to_i, routine_interval: 604800)
+      if routine.routine_date == Date.today && (routine.routine_time.strftime("%H:%M %p") > Time.now.strftime("%H:%M %p"))
+        routine.update(next_routine_date: DateTime.parse((routine.routine_date).to_s + " " + routine.routine_time.strftime("%H:%M:%S")))
+      else
+        routine.update(next_routine_date: DateTime.parse((routine.routine_date + 1.week).to_s + " " + routine.routine_time.strftime("%H:%M:%S")))
+      end
     elsif frequency == "Every Other Week"
       routine.update(next_routine_date: DateTime.parse((routine.routine_date != Date.today ? routine.routine_date : routine.routine_date + 2.weeks).to_s + " " + routine.routine_time.strftime("%H:%M:%S")), start: routine.routine_date.to_time.to_i, routine_interval: 1209600)
     elsif frequency == "Monthly"
