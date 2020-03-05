@@ -10,7 +10,7 @@ class RoutineSerializer < ActiveModel::Serializer
     data[:active] = object.active
     data[:routine_date] = object.routine_date.strftime("%b %d, %Y") if object.routine_date.present?
     data[:routine_time] = object.routine_time.strftime("%H:%M %p")
-    data[:next_routine_date] = object.next_routine_date.strftime("%b %d, %Y %H:%M %p") if object.next_routine_date.present?
+    data[:next_routine_date] = object.next_routine_date.strftime("%b %d, %Y at %H:%M %p") if object.next_routine_date.present?
     data
   end
 end
