@@ -68,7 +68,7 @@ module Api
       private
 
       def routine_params
-        params.require(:routine).permit(:name, :description, :routine_date, :frequency, :active, :date)
+        params.require(:routine).permit(:name, :description, :routine_date, :frequency, :active, :routine_time)
       end
 
     end
