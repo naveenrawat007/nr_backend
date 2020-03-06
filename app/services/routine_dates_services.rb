@@ -65,9 +65,7 @@ class RoutineDatesServices
         end
       end
     end
-    pre_routines = @user.routines.where(routine_date: (start_date..end_date))
-    date_routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0") if pre_routines.present?
-    OpenStruct.new(routine_dates: routine_dates.uniq, routines: date_routines ? date_routines : [])
+    OpenStruct.new(routine_dates: routine_dates.uniq, routines: routines)
 	end
 
 end
