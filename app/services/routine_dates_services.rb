@@ -21,7 +21,8 @@ class RoutineDatesServices
     routine_dates = []
     routines.each do |routine|
       frequency = routine.frequency
-      new_date = routine.routine_date
+      no_days = start_date.mjd - routine.routine_date.mjd
+      new_date = no_days<0 ? routine.routine_date : routine.routine_date + no_days.days
       if frequency == 'Daily'
         while new_date <= (end_date)
           routine_dates.append({date: new_date.strftime("%d/%m/%Y")})
@@ -64,8 +65,9 @@ class RoutineDatesServices
         end
       end
     end
-    date_routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0")
-    OpenStruct.new(routine_dates: routine_dates.uniq, routines: date_routines)
+    pre_routines = @user.routines.where(routine_date: (start_date..end_date))
+    date_routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0") if pre_routines.present?
+    OpenStruct.new(routine_dates: routine_dates.uniq, routines: date_routines ? date_routines : [])
 	end
 
 end
