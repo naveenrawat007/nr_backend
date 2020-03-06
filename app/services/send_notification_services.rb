@@ -16,8 +16,11 @@ class SendNotificationServices
   def routine_notifications()
     title = "#{routine.frequency} Reminder"
     message = "#{routine.frequency} reminder for routine #{routine.name}"
-    Sidekiq::Client.enqueue_to_in("default",routine.next_routine_date, RemindRoutineWorker, user.device_type, user.device_token, message, title, routine.id)
-    Sidekiq::Client.enqueue_to_in("default",routine.next_routine_date - routine.reminder_notification_time.hours, RemindRoutineWorker, user.device_type, user.device_token, message, title, routine.id) if routine.reminder_notification_time.present?
+    message1 = "You've been doing great. Keep it up!"
+    message2 = ""
+    Sidekiq::Client.enqueue_to_in("default",routine.next_routine_date - routine.reminder_notification_time.hours, RemindRoutineWorker, user.device_type, user.device_token, message, title, routine.id, message2) if routine.reminder_notification_time.present?
+    Sidekiq::Client.enqueue_to_in("default",routine.next_routine_date, RemindRoutineWorker, user.device_type, user.device_token, message, title, routine.id, message1)
+    routine.notifications.create(description: message, title: title)
   end
 
 end
