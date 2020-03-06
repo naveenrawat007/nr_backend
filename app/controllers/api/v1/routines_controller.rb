@@ -18,6 +18,7 @@ module Api
       def create
         routine = @user.routines.create(routine_params)
         NextRoutineServices.new(routine).call
+        SendNotificationServices.new(routine, @user).call
         render json: { message: "Routine created sucessfully", status: 200, routine: RoutineSerializer.new(routine,root: false)}
       end
 
@@ -35,11 +36,14 @@ module Api
         if routine.present?
           old_routine_frequency = routine.frequency
           old_routine_date = routine.routine_date
+          old_routine_time = routine.routine_time
           routine.update(routine_params)
           new_routine_frequency = routine.frequency
           new_routine_date = routine.routine_date
-          if ((old_routine_frequency != new_routine_frequency) || (old_routine_date != new_routine_date))
+          new_routine_time = routine.routine_time
+          if ((old_routine_frequency != new_routine_frequency) || (old_routine_date != new_routine_date) || (old_routine_time != new_routine_time))
             NextRoutineServices.new(routine).call
+            SendNotificationServices.new(routine, @user).call
           end
           render json: { message: "Routine updated", status: 200, routine: RoutineSerializer.new(routine,root: false)}
         else
@@ -68,7 +72,7 @@ module Api
       private
 
       def routine_params
-        params.require(:routine).permit(:name, :description, :routine_date, :frequency, :active, :routine_time)
+        params.require(:routine).permit(:name, :description, :routine_date, :frequency, :active, :routine_time, :reminder_notification_time)
       end
 
     end

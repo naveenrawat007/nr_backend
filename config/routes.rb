@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  require 'sidekiq/cron/web'
+  mount Sidekiq::Web => '/sidekiq'
   root "home#index"
   namespace 'api' do
     namespace "v1", constraints: ApiConstraint.new(version: 1) do
