@@ -7,7 +7,7 @@ module Api
 
       def index
         if params[:weeks].present?
-          routines = @user.routines.where("next_routine_date <= ? and active = ?", DateTime.now + 2.weeks + 1.day, true).order(routine_date: :asc)
+          routines = @user.routines.where(next_routine_date: (DateTime.now..DateTime.now + 2.weeks),active: true).order(routine_date: :asc)
           render json: { message: "Routines", status: 200, routines: ActiveModelSerializers::SerializableResource.new(routines, each_serializer: RoutineSerializer)}
         else
           routines = @user.routines.order(routine_date: :asc)
