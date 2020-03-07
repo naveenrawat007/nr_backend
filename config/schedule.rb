@@ -7,9 +7,9 @@
 #
 # set :output, "/path/to/my/cron_log.log"
 #
-every 1.day, at: '11:50 PM' do
-  rake "routine_reminder:notification_task"
-end
+# every 1.day, at: '11:50 PM' do
+#   rake "routine_reminder:notification_task"
+# end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
