@@ -14,7 +14,6 @@ Rails.application.routes.draw do
       patch "/update_profile" => "users#update_profile"
       post "/resend_otp" => "users#resend_otp"
       get "/user_info" => "users#get_user_info"
-      get "/day_routines" => "routines#day_routines"
       get "/routines_dates" => "routines#routines_dates"
       patch "/update_password" => "users#update_password"
     end
