@@ -19,13 +19,14 @@ class RoutineDatesServices
     routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0")
     # routines = user.routines.where(routine_date: (start_date..end_date)).order(routine_date: :asc)
     routine_dates = []
+    color_codes = []
     routines.each do |routine|
       frequency = routine.frequency
       no_days = start_date.mjd - routine.routine_date.mjd
-      new_date = no_days<0 ? routine.routine_date : routine.routine_date + no_days.days
+      new_date = no_days < 0 ? routine.routine_date : routine.routine_date + no_days.days
       if frequency == 'Daily'
         while new_date <= (end_date)
-          routine_dates.append({date: new_date.strftime("%d/%m/%Y")})
+          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: routine.active ? color_codes.uniq << "#008000" : color_codes.uniq << "#FF7700" })
           new_date = new_date + 1.day
         end
       elsif frequency == 'Weekly'
