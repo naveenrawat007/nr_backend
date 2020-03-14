@@ -9,7 +9,6 @@ class RoutineDatesServices
 
 	def call
 	  routine()
-    # routines = user.routines.where(routine_date: (start_date..end_date)).order(routine_date: :asc)
 	end
 
 	private
@@ -72,7 +71,8 @@ class RoutineDatesServices
       end
     end
     routine_dates.delete_if { |d| d[:date].to_date < start_date }
-    date_routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0 and active = ?", true)
+    date_routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0 and active = ? ", true)
+    date_routines = date_routines.find_all { |routine|  Time.at(selected_date).to_date >= routine.routine_date}
     OpenStruct.new(routine_dates: routine_dates.uniq, routines: date_routines)
 	end
 
