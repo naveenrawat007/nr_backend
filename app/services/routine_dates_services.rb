@@ -9,6 +9,7 @@ class RoutineDatesServices
 
 	def call
 	  routine()
+    # routines = user.routines.where(routine_date: (start_date..end_date)).order(routine_date: :asc)
 	end
 
 	private
@@ -16,20 +17,19 @@ class RoutineDatesServices
 	attr_accessor :user, :start_date, :end_date, :selected_date
 
 	def routine()
-    routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0 and active = ?", true)
-    # routines = user.routines.where(routine_date: (start_date..end_date)).order(routine_date: :asc)
+    new_routines = []
+    routines = Routine.where.not(frequency: "Daily")
     routine_dates = []
     color_codes = []
     routines.each do |routine|
       frequency = routine.frequency
-      no_days = start_date.mjd - routine.routine_date.mjd
-      new_date = no_days < 0 ? routine.routine_date : routine.routine_date + no_days.days
-      if frequency == 'Daily'
-        while new_date <= (end_date)
-          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
-          new_date = new_date + 1.day
-        end
-      elsif frequency == 'Weekly'
+      new_date = routine.routine_date
+      # if frequency == 'Daily'
+      #   while new_date <= (end_date)
+      #     routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
+      #     new_date = new_date + 1.day
+      #   end
+      if frequency == 'Weekly'
         while new_date <= end_date
           # exist_date = routine_dates.find { |x| x[:date] == new_date.strftime("%d/%m/%Y") }
           # if exist_date.present?
@@ -71,7 +71,9 @@ class RoutineDatesServices
         end
       end
     end
-    OpenStruct.new(routine_dates: routine_dates.uniq, routines: routines)
+    routine_dates.delete_if { |d| d[:date].to_date < start_date }
+    date_routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0 and active = ?", true)
+    OpenStruct.new(routine_dates: routine_dates.uniq, routines: date_routines)
 	end
 
 end
