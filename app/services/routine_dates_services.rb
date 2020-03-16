@@ -43,7 +43,6 @@ class RoutineDatesServices
           new_date = new_date + 2.week
         end
       elsif frequency == "Monthly"
-        debugger
         while new_date <= end_date
           routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
           new_date = new_date + 1.months
