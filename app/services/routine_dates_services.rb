@@ -45,7 +45,9 @@ class RoutineDatesServices
       elsif frequency == "Monthly"
         while new_date <= end_date
           routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
-          new_date = new_date + 1.months
+          days = no_of_days_in_month(new_date)
+          new_date = days == 31 ? new_date + 1.months : new_date + 1.months + 1.day
+          # new_date = new_date + 1.months
         end
       elsif frequency == "Every Other Month"
         while new_date <= end_date
@@ -69,10 +71,17 @@ class RoutineDatesServices
         end
       end
     end
+
     routine_dates.delete_if { |d| d[:date].to_date < start_date }
     date_routines = user.routines.where("(#{selected_date} - start) % routine_interval = 0 and active = ? ", true)
     date_routines = date_routines.find_all { |routine|  Time.at(selected_date).to_date >= routine.routine_date}
     OpenStruct.new(routine_dates: routine_dates.uniq, routines: date_routines)
 	end
+
+  def no_of_days_in_month(date)
+    year = date.strftime("%Y").to_i
+    month = date.strftime("%m").to_i
+    Date.new(year, month, -1).day
+  end
 
 end
