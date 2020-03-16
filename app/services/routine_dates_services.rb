@@ -37,27 +37,28 @@ class RoutineDatesServices
             routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
             new_date = new_date + 1.week
         end
-      elsif "Every Other Week"
+      elsif frequency == "Every Other Week"
         while new_date <= end_date
           routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
           new_date = new_date + 2.week
         end
-      elsif "Monthly"
+      elsif frequency == "Monthly"
+        debugger
         while new_date <= end_date
           routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
           new_date = new_date + 1.months
         end
-      elsif "Every Other Month"
+      elsif frequency == "Every Other Month"
         while new_date <= end_date
           routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
           new_date = new_date + 2.months
         end
-      elsif "Quarterly"
+      elsif frequency == "Quarterly"
         while new_date <= end_date
           routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
           new_date = new_date + 3.months
         end
-      elsif "Biannually"
+      elsif frequency == "Biannually"
         while new_date <= end_date
           routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
           new_date = new_date + 6.months
@@ -70,7 +71,7 @@ class RoutineDatesServices
       end
     end
     routine_dates.delete_if { |d| d[:date].to_date < start_date }
-    date_routines = @user.routines.where("(#{selected_date} - start) % routine_interval = 0 and active = ? ", true)
+    date_routines = user.routines.where("(#{selected_date} - start) % routine_interval = 0 and active = ? ", true)
     date_routines = date_routines.find_all { |routine|  Time.at(selected_date).to_date >= routine.routine_date}
     OpenStruct.new(routine_dates: routine_dates.uniq, routines: date_routines)
 	end
