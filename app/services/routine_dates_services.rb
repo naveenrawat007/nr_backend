@@ -16,7 +16,7 @@ class RoutineDatesServices
 	attr_accessor :user, :start_date, :end_date, :selected_date
 
 	def routine()
-    routines = user.routines.where.not(frequency: "Daily")
+    routines = user.routines.where("frequency != ? and active = ?", "Daily", true)
     routine_dates = []
     color_codes = []
     routines.each do |routine|
