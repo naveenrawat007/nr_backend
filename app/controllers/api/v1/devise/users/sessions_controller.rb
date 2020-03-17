@@ -10,7 +10,7 @@ module Api
           token = JWT.encode({user_id: user.id},Rails.application.secrets.secret_key_base, 'HS256')
           if user.valid_password?(params[:user][:password])
             if user.otp_verified
-              user.update(device_token: params[:user][:device_token])
+              user.update(device_token: params[:user][:device_token], device_type: params[:user][:device_type])
               render json: {message: "Login sucessfully",user: UserSerializer.new(user,root: false, serializer_options: {token: token}), status: 200}
             else
               user.update(otp_code: rand(100000...999999), device_type: params[:user][:device_type] )
