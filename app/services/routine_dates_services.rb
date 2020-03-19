@@ -22,6 +22,7 @@ class RoutineDatesServices
     routines.each do |routine|
       frequency = routine.frequency
       new_date = routine.routine_date
+      routine_month_days = no_of_days_in_month(routine.routine_date)
       # if frequency == 'Daily'
       #   while new_date <= (end_date)
       #     routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
@@ -45,8 +46,15 @@ class RoutineDatesServices
       elsif frequency == "Monthly"
         while new_date <= end_date
           routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
-          days = no_of_days_in_month(new_date)
-          new_date = days == 31 ? new_date + 1.months : new_date + 1.months + 1.day
+          if routine_month_days == 31
+            days = no_of_days_in_month(new_date)
+            new_date = days == 31 ? new_date + 1.months : new_date + 1.months + 1.day
+          elsif routine_month_days == 30
+            days = no_of_days_in_month(new_date)
+            new_date = days == 30 ? new_date + 1.months : new_date + 1.months - 1.day
+          else
+            new_date = new_date + 1.months
+          end
           # new_date = new_date + 1.months
         end
       elsif frequency == "Every Other Month"
