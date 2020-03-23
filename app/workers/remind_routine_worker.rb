@@ -6,7 +6,7 @@ class RemindRoutineWorker
       APNS.port = 2195
       APNS.pem  = pem
       APNS.pass = ''
-      APNS.host = APP_CONFIG['apn_host']
+      APNS.host = 'gateway.push.apple.com'
       begin
         APNS.send_notification(device_token, :alert => { title: title, body: message, id: id, success: success} , :badge => 1, :sound => 'default')
       rescue Exception => ex
@@ -22,6 +22,7 @@ class RemindRoutineWorker
   end
 
   def pem
+    pem = "#{Rails.root}/config/APNS_prod.pem"
     return pem
   end
 
