@@ -8,7 +8,7 @@ class RemindRoutineWorker
       APNS.pass = ''
       APNS.host = 'gateway.push.apple.com'
       begin
-        APNS.send_notification(device_token, :alert => { title: title, body: message, id: id, success: success} , :badge => 1, :sound => 'default')
+        APNS.send_notification(device_token, :alert => { title: title, body: message} , :badge => 1, :sound => 'default', :other => { id: id, sucess: sucess})
       rescue Exception => ex
         return false
       end
