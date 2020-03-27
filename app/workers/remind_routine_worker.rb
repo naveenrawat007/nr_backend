@@ -2,6 +2,8 @@ class RemindRoutineWorker
   include Sidekiq::Worker
 
   def perform(device_type, device_token, message, title, id, success)
+    routine = Routine.find_by(id: id)
+    routine.notifications.create(description: message, title: title)
     if device_type == "ios"
       APNS.port = 2195
       APNS.pem  = pem
