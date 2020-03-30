@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   require 'sidekiq/cron/web'
   mount Sidekiq::Web => '/sidekiq'
   root "home#index"
+  get "/privacy-policy" => "home#privacy_policy"
   namespace 'api' do
     namespace "v1", constraints: ApiConstraint.new(version: 1) do
       resources :routines
