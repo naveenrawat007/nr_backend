@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   root "home#index"
   get "/privacy-policy" => "home#privacy_policy"
+  get "/contact-us" => "home#support"
   namespace 'api' do
     namespace "v1", constraints: ApiConstraint.new(version: 1) do
       resources :routines
