@@ -24,7 +24,7 @@ class RemindRoutineWorker
   end
 
   def pem
-    pem = "#{Rails.root}/config/APNS_prod.pem"
+    pem = "#{Rails.root}/config/APNS_Dev_Nr.pem"
     return pem
   end
 
