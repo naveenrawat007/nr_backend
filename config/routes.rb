@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root "home#index"
   get "/privacy-policy" => "home#privacy_policy"
   get "/contact-us" => "home#support"
+  post "/contact-us" => "home#contact_us"
   namespace 'api' do
     namespace "v1", constraints: ApiConstraint.new(version: 1) do
       resources :routines
