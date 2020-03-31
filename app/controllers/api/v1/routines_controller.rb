@@ -7,10 +7,10 @@ module Api
 
       def index
         if params[:weeks].present?
-          routines = @user.routines.where(next_routine_date: (DateTime.now..DateTime.now + 2.weeks),active: true).order(routine_date: :asc).paginate(page: params[:page], per_page: 20)
+          routines = @user.routines.where(next_routine_date: (DateTime.now..DateTime.now + ENV["WEEK_COUNT"].weeks),active: true).order(routine_date: :asc).paginate(page: params[:page], per_page: ENV["PER_PAGE"])
           render json: { message: "Routines", status: 200, routines: ActiveModelSerializers::SerializableResource.new(routines, each_serializer: RoutineSerializer)}
         else
-          routines = @user.routines.paginate(page: params[:page], per_page: 20).order(routine_date: :asc)
+          routines = @user.routines.paginate(page: params[:page], per_page: ENV["PER_PAGE"]).order(routine_date: :asc)
           render json: { message: "Routines", status: 200, routines: ActiveModelSerializers::SerializableResource.new(routines, each_serializer: RoutineSerializer)}
         end
       end

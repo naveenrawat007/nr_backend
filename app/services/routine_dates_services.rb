@@ -23,29 +23,19 @@ class RoutineDatesServices
       frequency = routine.frequency
       new_date = routine.routine_date
       routine_month_days = no_of_days_in_month(routine.routine_date)
-      # if frequency == 'Daily'
-      #   while new_date <= (end_date)
-      #     routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
-      #     new_date = new_date + 1.day
-      #   end
       if frequency == 'Weekly'
         while new_date <= end_date
-          # exist_date = routine_dates.find { |x| x[:date] == new_date.strftime("%d/%m/%Y") }
-          # if exist_date.present?
-          #   routine.active ? exist_date[:color] << "#008000" : exist_date[:color] << "#FF7700"
-          #   new_date = new_date + 1.week
-          # else
-            routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
+            routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << ENV["COLOR_CODE"] })
             new_date = new_date + 1.week
         end
       elsif frequency == "Every Other Week"
         while new_date <= end_date
-          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
+          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << ENV["COLOR_CODE"] })
           new_date = new_date + 2.week
         end
       elsif frequency == "Monthly"
         while new_date <= end_date
-          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
+          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << ENV["COLOR_CODE"] })
           if routine_month_days == 31
             days = no_of_days_in_month(new_date)
             new_date = days == 31 ? new_date + 1.months : new_date + 1.months + 1.day
@@ -55,26 +45,25 @@ class RoutineDatesServices
           else
             new_date = new_date + 1.months
           end
-          # new_date = new_date + 1.months
         end
       elsif frequency == "Every Other Month"
         while new_date <= end_date
-          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
+          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << ENV["COLOR_CODE"] })
           new_date = new_date + 2.months
         end
       elsif frequency == "Quarterly"
         while new_date <= end_date
-          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
+          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << ENV["COLOR_CODE"] })
           new_date = new_date + 3.months
         end
       elsif frequency == "Biannually"
         while new_date <= end_date
-          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
+          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << ENV["COLOR_CODE"] })
           new_date = new_date + 6.months
         end
       else
         while new_date <= end_date
-          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << "#008000" })
+          routine_dates.append({date: new_date.strftime("%d/%m/%Y"), color: color_codes.uniq << ENV["COLOR_CODE"] })
           new_date = new_date + 1.year
         end
       end
