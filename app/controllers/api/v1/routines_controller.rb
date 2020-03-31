@@ -32,20 +32,15 @@ module Api
       end
 
       def update
-        routine = @user.routines.find_by(id: params[:id])
-        if routine.present?
-          old_routine_frequency = routine.frequency
-          old_routine_date = routine.routine_date
-          old_routine_time = routine.routine_time
-          routine.update(routine_params)
-          new_routine_frequency = routine.frequency
-          new_routine_date = routine.routine_date
-          new_routine_time = routine.routine_time
-          if ((old_routine_frequency != new_routine_frequency) || (old_routine_date != new_routine_date) || (old_routine_time != new_routine_time))
-            NextRoutineServices.new(routine).call
-            SendNotificationServices.new(routine, @user).call
+        @routine = @user.routines.find_by(id: params[:id])
+        if @routine.present?
+          @routine.assign_attributes(routine_params)
+          if ((@routine.frequency_changed?) || (@routine.routine_date_changed?) || (@routine.routine_time_changed?))
+            NextRoutineServices.new(@routine).call
+            SendNotificationServices.new(@routine, @user).call
           end
-          render json: { message: "Routine updated", status: 200, routine: RoutineSerializer.new(routine,root: false)}
+          @routine.update(routine_params)
+          render json: { message: "Routine updated", status: 200, routine: RoutineSerializer.new(@routine,root: false)}
         else
           render json: { message: "Routine not found", status: 400}
         end
