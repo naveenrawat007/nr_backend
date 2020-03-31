@@ -6,4 +6,13 @@ class UserMailer < ApplicationMailer
     mail(to:user.email, subject: "OTP CODE")
   end
 
+  def feedback(fname,lname,phone,email,query)
+    @email = email
+    @fname = fname
+    @lname = lname
+    @phone = phone
+    @query = query
+    mail(to:ENV["SUPPORT_EMAIL"], subject: "Support")
+  end
+
 end

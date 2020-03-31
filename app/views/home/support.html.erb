@@ -1,12 +1,15 @@
 <h1>Contact Us</h1>
 <div class="container">
-    <input type="text" id="fname" name="firstname" placeholder="First Name">
-    <input type="text" id="lname" name="lastname" placeholder="Last Name">
-    <input type="text" id="lname" name="lastname" placeholder="Email">
-    <input type="text" id="lname" name="lastname" placeholder="Phone No.">
-    <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+  <form class="" url="/contact-us" method="post">
+    <input type="text" id="fname" name="f_name" placeholder="First Name" required=true>
+    <input type="text" id="lname" name="l_name" placeholder="Last Name" required=true>
+    <input type="email" id="lname" name="email" placeholder="Email" required=true>
+    <input type="text" id="lname" name="phone" placeholder="Phone No." required=true>
+    <textarea id="subject" name="query" placeholder="Write something.." style="height:200px" required=true></textarea>
     <input type="submit" value="Submit" onclick="showAlert()">
+  </form>
 </div>
+
 
 <script type="text/javascript">
 
