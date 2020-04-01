@@ -26,16 +26,16 @@ $(document).ready(function(){
     var regex =  /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
     if ((!/^[a-zA-Z]*$/g.test(fname)) || (!/^[a-zA-Z]*$/g.test(lname))) {
-        let a = "Invalid Name";
+        var a = "Invalid Name";
         alert(a);
         e.preventDefault()
     }
     else if((!regex.test(email)) && (!email.length < 1)){
-      let a = "Invalid Email";
+      var a = "Invalid Email";
       alert(a);
       e.preventDefault()
     }else if ((!/^[0-9]+$/.test(phone)) && (!phone.length < 1)){
-      let a = "Invalid Phone Number";
+      var a = "Invalid Phone Number";
       alert(a);
       e.preventDefault()
     }
