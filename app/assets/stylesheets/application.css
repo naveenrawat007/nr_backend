@@ -14,6 +14,18 @@
  *= require_self
  */
 
+.logo img{
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 45%;
+}
+
+.logo h1{
+  position: absolute;
+  left: 43%;
+  top: 13%;
+}
 
 
 h1{
@@ -25,6 +37,18 @@ h2{
 }
 
 .container{
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  text-align: justify;
+  font-size: 18px;
+  top: 22%;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 18px;
+}
+
+.container1{
   position: absolute;
   left: 22%;
   right: 22%;
