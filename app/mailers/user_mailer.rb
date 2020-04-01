@@ -8,9 +8,9 @@ class UserMailer < ApplicationMailer
   end
 
   def feedback(fname,lname,email,phone,query)
-    @email = email
     @fname = fname
     @lname = lname
+    @email = email
     @phone = phone
     @query = query
     mail(to:ENV["SUPPORT_EMAIL"], subject: "Support")
