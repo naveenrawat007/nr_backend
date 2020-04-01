@@ -77,3 +77,4 @@ gem 'whenever', require: false
 gem 'fcm'
 gem 'apns'
 gem 'will_paginate'
+gem 'jquery-rails'

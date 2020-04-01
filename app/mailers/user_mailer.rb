@@ -7,7 +7,7 @@ class UserMailer < ApplicationMailer
     mail(to:user.email, subject: "Verify Email")
   end
 
-  def feedback(fname,lname,phone,email,query)
+  def feedback(fname,lname,email,phone,query)
     @email = email
     @fname = fname
     @lname = lname
