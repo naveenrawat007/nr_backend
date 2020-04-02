@@ -36,6 +36,13 @@ $(document).ready(function(){
     }
   })
 
+  $("#phone").keypress(function (event) {
+     var phone = $("#phone").val();
+     if (phone.length > 9){
+       return false;
+     }
+  })
+
   // $("#submit").click(function(e){
   //   var email = $("#email").val()
   //   var fname = $("#fname").val()
