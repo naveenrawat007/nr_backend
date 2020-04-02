@@ -18,27 +18,45 @@
 
 $(document).ready(function(){
 
-  $("#submit").click(function(e){
-    var email = $("#email").val()
-    var fname = $("#fname").val()
-    var lname = $("#lname").val()
-    var phone = $("#phone").val()
-    var regex =  /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-
-    if ((!/^[a-zA-Z]*$/g.test(fname)) || (!/^[a-zA-Z]*$/g.test(lname))) {
-        var a = "Invalid Name";
-        alert(a);
-        e.preventDefault()
-    }
-    else if((!regex.test(email)) && (!email.length < 1)){
-      var a = "Invalid Email";
-      alert(a);
-      e.preventDefault()
-    }else if ((!/^[0-9]+$/.test(phone)) && (!phone.length < 1)){
-      var a = "Invalid Phone Number";
-      alert(a);
-      e.preventDefault()
+  $("#phone").keypress(function (event) {
+    if ( (event.which != 8 || event.which ==32 ) && (event.which < 48 || event.which > 57)) {
+      return false;
     }
   })
+
+  $("#fname").keypress(function (event) {
+    if ( (event.which != 8 || event.which ==32 ) && (event.which < 65 || event.which > 90) && (event.which < 97 || event.which > 122)) {
+      return false;
+    }
+  })
+
+  $("#lname").keypress(function (event) {
+    if ( (event.which != 8 || event.which ==32 ) && (event.which < 65 || event.which > 90) && (event.which < 97 || event.which > 122)) {
+      return false;
+    }
+  })
+
+  // $("#submit").click(function(e){
+  //   var email = $("#email").val()
+  //   var fname = $("#fname").val()
+  //   var lname = $("#lname").val()
+  //   var phone = $("#phone").val()
+  //   var regex =  /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+  //
+  //   if ((!/^[a-zA-Z]*$/g.test(fname)) || (!/^[a-zA-Z]*$/g.test(lname))) {
+  //       var a = "Invalid Name";
+  //       alert(a);
+  //       e.preventDefault()
+  //   }
+  //   else if((!regex.test(email)) && (!email.length < 1)){
+  //     var a = "Invalid Email";
+  //     alert(a);
+  //     e.preventDefault()
+  //   }else if ((!/^[0-9]+$/.test(phone)) && (!phone.length < 1)){
+  //     var a = "Invalid Phone Number";
+  //     alert(a);
+  //     e.preventDefault()
+  //   }
+  // })
 
 })

@@ -6,7 +6,10 @@
   <form class="" url="/contact-us" method="post" onsubmit="showAlert()">
     <input type="text" id="fname" name="f_name" placeholder="First Name" required=true>
     <input type="text" id="lname" name="l_name" placeholder="Last Name" required=true>
-    <input type="email" id="email" name="email" placeholder="Email" required=true>
+    <!-- <input type="email" id="email" name="email" placeholder="Email" required=true> -->
+    <input type="email" id="email" name="email" placeholder="Email" oninvalid="this.setCustomValidity('invalid email')"
+    oninput="this.setCustomValidity('')"  pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
+    required >
     <input type="text" id="phone" name="phone" placeholder="Phone No." required=true>
     <textarea id="subject" name="query" placeholder="Write something.." style="height:200px" required=true></textarea>
     <input type="submit" value="Submit" id="submit">
