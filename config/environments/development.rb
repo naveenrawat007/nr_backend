@@ -43,6 +43,19 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
+  config.action_mailer.delivery_method = :smtp
+  # change to true to allow email to be sent during development
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.smtp_settings = {
+  address: "smtp.gmail.com",
+  port: 587,
+  domain: "example.com",
+  authentication: "plain",
+  enable_starttls_auto: true,
+  user_name: "naturallyreminded@gmail.com" ,
+  password: "N!kk1523"
+}
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
